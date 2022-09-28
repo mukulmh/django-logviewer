@@ -85,7 +85,7 @@ If you are starting from scratch then follow from step 1. If you have an existin
 2. Activate the virtual environment.
    <br>gitbash cli
    ```sh
-   source/venv/Scripts/activate
+   source venv/Scripts/activate
    ```
    terminal
    ```sh
