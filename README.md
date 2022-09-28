@@ -376,7 +376,7 @@ If you are starting from scratch then follow from step 1. If you have an existin
                 request_logger.exception("Unhandled Exception: " + str(e))
             return exception
     ```
-    iii. Now register this middleware for you djanog application. Include the middleware at the end of the middleware lists like below.
+    iii. Now register this middleware for you django application. Include the middleware at the end of the middleware lists like below.
     ```py
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
