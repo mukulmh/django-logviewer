@@ -1,0 +1,692 @@
+{% extends 'logger/base.html' %}
+<p>{% block title %}Logs{% endblock %}</p>
+{% load static %}
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0"> Dashboard </small></h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="container-fluid">
+      <!-- Todays Logs -->
+      <div class="row">
+        <div class="col-lg-2 col-6">
+          <!-- small box -->
+          <div class="small-box bg-primary">
+            <div class="inner">
+              <h4>{{todays_log.all_count}} <span style="font-size: 15px;">Entries</span> </h4>
+
+              <p>All Logs</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-list"></i>
+            </div>
+            <a href="#" class="small-box-footer" data-toggle="modal" data-target="#viewlog-all-{{todays_log.date}}">More
+              info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-6">
+          <!-- small box -->
+          <div class="small-box bg-gray">
+            <div class="inner">
+              <h4>{{todays_log.debug_count}} <span style="font-size: 15px;">Entries</span> </h4>
+
+              <p>Debug Logs</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-bug"></i>
+            </div>
+            <a href="#" class="small-box-footer" data-toggle="modal"
+              data-target="#viewlog-debug-{{todays_log.date}}">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h4>{{todays_log.info_count}} <span style="font-size: 15px;">Entries</span> </h4>
+
+              <p>Info Logs</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-info"></i>
+            </div>
+            <a href="#" class="small-box-footer" data-toggle="modal"
+              data-target="#viewlog-info-{{todays_log.date}}">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h4>{{todays_log.warning_count}} <span style="font-size: 15px;">Entries</span> </h4>
+
+              <p>Warning Logs</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-exclamation"></i>
+            </div>
+            <a href="#" class="small-box-footer" data-toggle="modal"
+              data-target="#viewlog-warning-{{todays_log.date}}">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h4>{{todays_log.error_count}} <span style="font-size: 15px;">Entries</span> </h4>
+
+              <p>Error Logs</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-exclamation-triangle"></i>
+            </div>
+            <a href="#" class="small-box-footer" data-toggle="modal"
+              data-target="#viewlog-error-{{todays_log.date}}">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-6">
+          <!-- small box -->
+          <div class="small-box bg-maroon">
+            <div class="inner">
+              <h4>{{todays_log.critical_count}} <span style="font-size: 15px;">Entries</span> </h4>
+
+              <p>Critical Logs</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-skull-crossbones"></i>
+            </div>
+            <a href="#" class="small-box-footer" data-toggle="modal"
+              data-target="#viewlog-critical-{{todays_log.date}}">More info <i
+                class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+
+      <!-- Log Table -->
+      <div class="row">
+        <!-- /.col-md-6 -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Logs Table</h3>
+
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                  <div class="input-group-append">
+                    <button type="submit" class="btn btn-default">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0" style="height: 300px;">
+              <table class="table table-sm table-head-fixed table-hover text-nowrap">
+                <thead>
+                  <tr>
+                    <th><span class="badge bg-gray"><i class="fas fa-calendar"> Date</i></span></th>
+                    <th><span class="badge bg-primary"><i class="fas fa-list"> All</i></span></th>
+                    <th><span class="badge bg-maroon"><i class="fas fa-skull-crossbones"> Critical</i></span></th>
+                    <th><span class="badge bg-danger"><i class="fas fa-exclamation-triangle"> Error</i></span></th>
+                    <th><span class="badge bg-warning"><i class="fas fa-exclamation-circle"> Warning</i></span></th>
+                    <th><span class="badge bg-info"><i class="fas fa-info-circle"> Info</i></span></th>
+                    <th><span class="badge bg-gray"><i class="fas fa-bug"> Debug</i></span></th>
+                    <th><span class="badge bg-pink"><i class="fas fa-hand-pointer"> Actions</i></span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for log in logs %}
+                  <tr>
+                    <td><span class="badge bg-gray">{{log.date}}</span></td>
+                    <td><span class="btn badge bg-primary" data-toggle="modal"
+                        data-target="#viewlog-all-{{log.date}}">{{log.all_count}}</span></td>
+                    <td><span class="btn badge bg-maroon" data-toggle="modal"
+                        data-target="#viewlog-critical-{{log.date}}">{{log.critical_count}}</span></td>
+                    <td><span class="btn badge bg-danger" data-toggle="modal"
+                        data-target="#viewlog-error-{{log.date}}">{{log.error_count}}</span></td>
+                    <td><span class="btn badge bg-warning" data-toggle="modal"
+                        data-target="#viewlog-warning-{{log.date}}">{{log.warning_count}}</span></td>
+                    <td><span class="btn badge bg-info" data-toggle="modal"
+                        data-target="#viewlog-info-{{log.date}}">{{log.info_count}}</span></td>
+                    <td><span class="btn badge bg-gray" data-toggle="modal"
+                        data-target="#viewlog-debug-{{log.date}}">{{log.debug_count}}</span></td>
+                    <td>
+                      <a class="btn btn-xs btn-primary" href="{% url 'logs' file=log.file %}">
+                        <i class="fa fa-eye"></i></a>
+                      <a class="btn btn-xs btn-info" download="logfile">
+                        <i class="fa fa-download"></i>
+                      </a>
+                      <a class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-lg">
+                        <i class="fa fa-trash"></i></a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col-md-6 -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content -->
+  <div class="row">
+    <!-- /.row (main row) -->
+    {% for log in logs %}
+    <!-- /all logs .modal -->
+    <div class="modal fade" id="viewlog-all-{{log.date}}">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{log.date}}.log</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">All logs</h3>
+
+                    <div class="card-tools">
+                      <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-head-fixed text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Log Type</th>
+                          <th>Function</th>
+                          <th>Log Message</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for logs in log.all_logs%}
+                        <tr>
+                          <td>{{logs.split.1}}</td>
+                          <td>{{logs.split.2}}</td>
+                          <td><span class="badge 
+                                {% if logs.split.0 == 'ERROR' %}
+                                bg-danger
+                                {% elif logs.split.0 == 'DEBUG' %}
+                                bg-gray
+                                {% else %}
+                                bg-{{logs.split.0|lower}}
+                                {% endif %}
+                                ">{{logs.split.0}}</span></td>
+                          <td>{{logs.split.3}}</td>
+                          <td>{{logs}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- /error logs .modal -->
+    <div class="modal fade" id="viewlog-error-{{log.date}}">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{log.date}}.log</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Error logs</h3>
+
+                    <div class="card-tools">
+                      <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-head-fixed text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Log Type</th>
+                          <th>Function</th>
+                          <th>Log Message</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for logs in log.error_logs%}
+                        <tr>
+                          <td>{{logs.split.1}}</td>
+                          <td>{{logs.split.2}}</td>
+                          <td><span class="badge 
+                                {% if logs.split.0 == 'ERROR' %}
+                                bg-danger
+                                {% elif logs.split.0 == 'DEBUG' %}
+                                bg-gray
+                                {% else %}
+                                bg-{{logs.split.0|lower}}
+                                {% endif %}
+                                ">{{logs.split.0}}</span></td>
+                          <td>{{logs.split.3}}</td>
+                          <td>{{logs}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- /warning logs .modal -->
+    <div class="modal fade" id="viewlog-warning-{{log.date}}">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{log.date}}.log</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Warning logs</h3>
+
+                    <div class="card-tools">
+                      <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-head-fixed text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Log Type</th>
+                          <th>Function</th>
+                          <th>Log Message</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for logs in log.warning_logs%}
+                        <tr>
+                          <td>{{logs.split.1}}</td>
+                          <td>{{logs.split.2}}</td>
+                          <td><span class="badge 
+                                {% if logs.split.0 == 'ERROR' %}
+                                bg-danger
+                                {% elif logs.split.0 == 'DEBUG' %}
+                                bg-gray
+                                {% else %}
+                                bg-{{logs.split.0|lower}}
+                                {% endif %}
+                                ">{{logs.split.0}}</span></td>
+                          <td>{{logs.split.3}}</td>
+                          <td>{{logs}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- /info logs .modal -->
+    <div class="modal fade" id="viewlog-info-{{log.date}}">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{log.date}}.log</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Info logs</h3>
+
+                    <div class="card-tools">
+                      <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-head-fixed text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Log Type</th>
+                          <th>Function</th>
+                          <th>Log Message</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for logs in log.info_logs%}
+                        <tr>
+                          <td>{{logs.split.1}}</td>
+                          <td>{{logs.split.2}}</td>
+                          <td><span class="badge 
+                                {% if logs.split.0 == 'ERROR' %}
+                                bg-danger
+                                {% elif logs.split.0 == 'DEBUG' %}
+                                bg-gray
+                                {% else %}
+                                bg-{{logs.split.0|lower}}
+                                {% endif %}
+                                ">{{logs.split.0}}</span></td>
+                          <td>{{logs.split.3}}</td>
+                          <td>{{logs}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- /debug logs .modal -->
+    <div class="modal fade" id="viewlog-debug-{{log.date}}">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{log.date}}.log</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Debug logs</h3>
+
+                    <div class="card-tools">
+                      <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-head-fixed text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Log Type</th>
+                          <th>Function</th>
+                          <th>Log Message</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for logs in log.debug_logs%}
+                        <tr>
+                          <td>{{logs.split.1}}</td>
+                          <td>{{logs.split.2}}</td>
+                          <td><span class="badge 
+                                {% if logs.split.0 == 'ERROR' %}
+                                bg-danger
+                                {% elif logs.split.0 == 'DEBUG' %}
+                                bg-gray
+                                {% else %}
+                                bg-{{logs.split.0|lower}}
+                                {% endif %}
+                                ">{{logs.split.0}}</span></td>
+                          <td>{{logs.split.3}}</td>
+                          <td>{{logs}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    {% endfor %}
+
+    <!-- /.modal -->
+    <div class="modal fade" id="modal-lg">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Log Table</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">2022-09-24 Log</h3>
+
+                    <div class="card-tools">
+                      <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-head-fixed text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Log Type</th>
+                          <th>Log Message</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>2022-09-24</td>
+                          <td>09:34:38</td>
+                          <td><span class="badge bg-info">INFO</span></td>
+                          <td>User logged in.</td>
+                        </tr>
+                        <tr>
+                          <td>2022-09-24</td>
+                          <td>09:34:38</td>
+                          <td><span class="badge bg-warning">WARNING</span></td>
+                          <td>User logged out.</td>
+                        </tr>
+                        <tr>
+                          <td>2022-09-24</td>
+                          <td>09:34:38</td>
+                          <td><span class="badge bg-danger">ERROR</span></td>
+                          <td>Invalid credentials.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}

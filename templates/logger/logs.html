@@ -1,0 +1,122 @@
+{% extends 'logger/base.html' %}
+<p>{% block title %}Logs{% endblock %}</p>
+{% load static %}
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0"> Logs </small></h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Logs</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div style="float: left;">
+                                <h3 class="card-title">Logs DataTable</h3>
+                            </div>
+                            <div style="float: right;" class="row">
+                                <div style="display: inline-block;">
+                                    <div style="display: inline-block;">
+                                        <!-- Filter button -->
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Filter
+                                            </button>
+                                            <div class="dropdown-menu bg-success">
+                                            <a class="dropdown-item bg-primary cat-all" href="#">All</a>
+                                            <a class="dropdown-item bg-gray cat-1" href="#">Debug</a>
+                                            <a class="dropdown-item bg-info cat-2" href="#">Info</a>
+                                            <a class="dropdown-item bg-warning cat-3" href="#">Warning</a>
+                                            <a class="dropdown-item bg-danger cat-4" href="#">Error</a>
+                                            <a class="dropdown-item bg-maroon cat-5" href="#">Critical</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: inline-block;">
+                                        <p>Page: {{logs.number}} of {{total_pages}} &nbsp;</p>
+                                    </div>
+                                    {% if logs.has_previous %}
+                                    <div style="display: inline-block;"><a
+                                            href="{% url 'logs' file=file %}?page={{logs.previous_page_number}}">
+                                            <button class="btn btn-sm btn-success"><i class="fa fa-arrow-left"></i></button>
+                                            &nbsp;</a>
+                                    </div>
+                                    {% endif %}
+                                    {% if logs.has_next%}
+                                    <div style="display: inline-block;"><a
+                                            href="{% url 'logs' file=file %}?page={{logs.next_page_number}}">&nbsp;
+                                            <button class="btn btn-sm btn-success"><i class="fa fa-arrow-right"></i></button></a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-striped"
+                                style="word-wrap: break-word;">
+                                <thead>
+                                    <tr>
+                                        <th>Log No</th>
+                                        <!-- <th>Date</th> -->
+                                        <th>Time</th>
+                                        <th>Log Type</th>
+                                        <th>Function</th>
+                                        <th>Message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for line in logs%}
+                                    <tr class="group-{{line.log.split.0}}">
+                                        <td>{{line.log_number}}</td>
+                                        <!-- <td>{{line.log.split.1}}</td> -->
+                                        <td>{{line.log.split.2}}</td>
+                                        <td>{{line.log.split.0}}</td>
+                                        <td>{{line.log.split.3}}</td>
+                                        <td>{{line.message}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Log No</th>
+                                        <!-- <th>Date</th> -->
+                                        <th>Time</th>
+                                        <th>Log Type</th>
+                                        <th>Function</th>
+                                        <th>Message</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}
