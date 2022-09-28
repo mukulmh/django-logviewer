@@ -95,6 +95,10 @@ If you are starting from scratch then follow from step 1. If you have an existin
    ```sh
    pip install Django
    ```
+   or
+   ```sh
+   pip3 install Django
+   ```
 4. Start a new project
    ```sh
    django-admin startproject django_logger .
@@ -264,8 +268,8 @@ If you are starting from scratch then follow from step 1. If you have an existin
             logs.append(log_data)
         # print(logs)
         todays_log = logs[0]
-        return render(request,'logger/dashboard.html',{'logs':logs, 'todays_log':todays_log})
         # logger.debug('This is a log message.')
+        return render(request,'logger/dashboard.html',{'logs':logs, 'todays_log':todays_log})
 
     # logs
     def logs(request, file):
