@@ -4,9 +4,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-<!--   <a href="#">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
+  <a href="#">
+    <img src="static/img/logo.png" alt="Logo" width="120" height="120">
+  </a>
 
   <h3 align="center">Django Log Viewer</h3>
 
@@ -38,18 +38,17 @@
 
 
 <!-- ABOUT THE PROJECT -->
-<!-- ## About The Project
+## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+Dashboard
+[![Project Screen Shot][project-screenshot1]](https://example.com)
+Logs
+[![Project Screen Shot][project-screenshot2]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+Did you ever feel lazy about configuring a logger and used print() instead?... I did, yet logging is fundamental to every application and eases the process of debugging. So I have made this log viewer with user interface for Django Applications which is very user friendly. This log viewer can be implemented on any Django applications very easily. Both beginner or expert can integrate this log viewer with their applications with minimum amount of efforts. 😃
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -60,19 +59,18 @@ In order to be able to add log viewer in you django project you will have to fol
 
 ### Prerequisites
 
-If you are starting from scratch then you must need to configure some things.
-1. You have to install Python in your system. Search for python in your web browser then download and install. 
-   After successfull installation open terminal and make sure by running
+You will need to have Python installed in your system. Download and install Python from [here](https://www.python.org/downloads/). After successfull installation open terminal and make sure by running
   ```sh
   python --version
   ```
-Now you are good to proceed for setting up your project.
+Now we are good to proceed.
 
 ### Project Setup
 
-If you are starting from scratch then follow from step 1. If you have an existing django project then follow from step 5.
+If you are starting from scratch then follow from step 1. If you have an existing django project then jump to step 5.
 
-1. Make a directory where you want to put your project. Open terminal iside the directory.
+#### Step: 1 
+Make a directory where you want to put your project. Open terminal iside the directory.
    <br>Create a virtual environment by running
    ```sh
    python -m venv venv
@@ -82,7 +80,8 @@ If you are starting from scratch then follow from step 1. If you have an existin
    python3 -m venv venv
    ```
    This will create a new directory named venv inside our project folder.
-2. Activate the virtual environment.
+#### Step: 2
+Activate the virtual environment.
    <br>gitbash cli
    ```sh
    source venv/Scripts/activate
@@ -91,7 +90,8 @@ If you are starting from scratch then follow from step 1. If you have an existin
    ```sh
    venv\Scripts\activate
    ```
-3. Install Django.
+#### Step: 3
+Install Django.
    ```sh
    pip install Django
    ```
@@ -99,21 +99,24 @@ If you are starting from scratch then follow from step 1. If you have an existin
    ```sh
    pip3 install Django
    ```
-4. Start a new project
+#### Step: 4
+Start a new project named django_logger.
    ```sh
    django-admin startproject django_logger .
    ```
    you will see a new directory name django_logger and a new file manage.py has been created.
-   <br> Now to verify your project creation run the following command
+   <br> Now to verify your project creation run the following command.
    ```sh
    python manage.py runserver
    ```
    Now browse `localhost:8000` or `127.0.0.1:8000`in your browser. You will see a success page. :smile:
-5. Create a new app for log viewer by running
+#### Step: 5 (Integrating log viewer to our Django Application)
+Create a new app for log viewer by running
    ```sh
    django-admin startapp app_logviewer
    ```
-6. In your main app `settings.py`(in our case 'django_logger') iside INSTALLED_APPS add 'app_logviewer'
+#### Step: 6
+In your main app `settings.py`(in our case `django_logger`) in INSTALLED_APPS list add 'app_logviewer' as shown below.
    ```py
    INSTALLED_APPS = [
       ....,
@@ -121,7 +124,8 @@ If you are starting from scratch then follow from step 1. If you have an existin
       'app_logviewer',
    ]
    ```
-7. Configure templates directory. if you are already configured and working with templates then you can skip.
+#### Step: 7
+Configure templates directory. if you are already configured and working with templates then you can skip.
    ```py
    TEMPLATES_DIR = BASE_DIR / 'templates' # templates will be the folder from where we will render our HTML files.
     
@@ -134,7 +138,8 @@ If you are starting from scratch then follow from step 1. If you have an existin
      }
    ]
    ```
-8. Configure static files directory. Again you can skip if you have already configured.
+#### Step: 8
+Configure static files directory. Again you can skip if you have already configured.
    ```py
    STATIC_URL = 'static/'
    STATICFILES_DIRS = [
@@ -142,7 +147,8 @@ If you are starting from scratch then follow from step 1. If you have an existin
    ]
    STATIC_ROOT =os.path.join(BASE_DIR, 'assets')
    ```
-9. Logging configuration. You can configure this logger as per as your need. You can check out django logger documentation.
+#### Step: 9
+Logging configuration. You can configure this logger as per as your need. You can check out django [logging](https://docs.djangoproject.com/en/4.1/topics/logging/) documentation.
    ```py
    # logging configuration below
    from datetime import date
@@ -181,17 +187,19 @@ If you are starting from scratch then follow from step 1. If you have an existin
                 'style': '{',
             },
         },
-    }
-    ```
-10. Now we will need to register our app_logviewer app url in the main apps(in our case django_logger) `urls.py` file.
-    ```py
+   }
+   ```
+#### Step: 10
+Now we will need to register our app_logviewer app url in the main apps(in our case django_logger) `urls.py` file.
+   ```py
     from django.urls import path, include
 
     # logviewer url
     path('logs/', include('app_logviewer.urls'),name='logs'),
-    ```
-11. Now we make views for our app_logviewer. So open `views.py` of app_logviewer. And just simply paste the following code snippet.
-    ```py
+   ```
+#### Step: 11
+Now we make views for our app_logviewer. So open `views.py` of `app_logviewer`. And just simply paste the following code snippet.
+   ```py
     from django.shortcuts import render,redirect
     from django.contrib import messages
     import os
@@ -291,9 +299,10 @@ If you are starting from scratch then follow from step 1. If you have an existin
         total_pages = log_paginator.num_pages
         logs_per_page = log_paginator.get_page(page_number)
         return render(request,'logger/logs.html',{'logs':logs_per_page, 'file':file, 'total_pages':total_pages})
-    ```
-12. Now create a new file `urls.py` for app_logviewer app. And paste the following code.
-    ```py
+   ```
+#### Step: 12
+Now create a new file `urls.py` in app_logviewer directory. And paste the following code.
+   ```py
     from django.urls import path
     from .views import *
 
@@ -301,17 +310,20 @@ If you are starting from scratch then follow from step 1. If you have an existin
         path('', dashboard, name='dashboard'),
         path('debug/<str:file>', logs, name='logs'),
     ]
-    ```
-13. Now we need to collect the templates and static files for the app_logviewer app.
-    i. First clone or download the repo from this link. https://github.com/mukulmh/django-logviewer
-    ii. Copy the templates and static folder to our projects root directory.
-    iii. If you already have static and templates folder then just copy the files and directories inside of the static and templates folders.
+   ```
+#### Step: 13
+Now we need to collect the templates and static files for the app_logviewer app.<br>
+    i. First clone or download the repo from this [link](https://github.com/mukulmh/django-logviewer). <br>
+    ii. Copy the templates and static folder to our projects root directory.<br>
+    iii. If you already have static and templates folder then just copy the files and directories from the static and templates folders.
     
-14. Now it's all done. If you have completed all the above steps as I have shown then you can run your application by running 
+#### Step: 14
+Now it's all set. If you have completed all the above steps as I have shown then you can run your application by running the server again.
     <br>`python manage.py runserver`.
     <br>Open your browser and type `localhost:8000/logs or` `127.0.0.1:8000/logs`. You will see the log viewer dashboard. 😃 Congratulations. 🎆
-15. Now to log your site logs you can make a middleware. If you don't want to use middleware and want to log only specific requests/views logs then you will have to write the following code in your desired views.py file.
-    ```py
+#### Step: 15
+Now to log your applications logs you can make a middleware. If you don't want to use middleware and want to log only specific requests/routes then you will have to write the following code in your desired views.py file. For better understanding please browse this [link](https://docs.djangoproject.com/en/4.1/howto/logging/)
+   ```py
     import logging
     
     # create the logger instance
@@ -320,12 +332,13 @@ If you are starting from scratch then follow from step 1. If you have an existin
     # now you can log whatever you want by adding the follwing line
     logger.info('This is the log message!')
     # now the log will be recorded whenever the view is triggered
-    ```
-    You can verify by browsing the log file which will be found in the logs directory. You will see a .log file has been created for current day. Every day there will be a new file for writing the logs.<br>
-16. Final step if you want to add a middleware configuration.<br>
-    i. Create a new directory named middleware inside the main app directory(in our case django_logger). Inside middleware directory create a new file `__init__.py`<br>
-    ii. Now copy the code snippet and paste into `__init__.py` file. You can make your own custom middleware. Check out the django custom middleware documentation.
-    ```py
+   ```
+You can verify by browsing the log file which will be found in the logs directory. You will see a .log file has been created for current day. Every day there will be a new file for storing the logs.<br>
+#### Step: 16(Optional)
+Final step if you want to add a middleware configuration.<br>
+   i. Create a new directory named middleware inside the main app directory(in our case django_logger). Inside middleware directory create a new file `__init__.py`<br>
+   ii. Now copy the code snippet and paste into `__init__.py` file. You can make your own custom middleware. Check out the django custom [middleware](https://docs.djangoproject.com/en/4.1/topics/http/middleware/) documentation.
+   ```py
     
     """
     Middleware to log `*/api/*` requests and responses.
@@ -379,9 +392,9 @@ If you are starting from scratch then follow from step 1. If you have an existin
             except Exception as e:
                 request_logger.exception("Unhandled Exception: " + str(e))
             return exception
-    ```
-    iii. Now register this middleware for you django application. Include the middleware at the end of the middleware lists like below.
-    ```py
+   ```
+   iii. Now register this middleware for you django application. Include the middleware at the end of the middleware lists like below.
+   ```py
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
@@ -393,7 +406,9 @@ If you are starting from scratch then follow from step 1. If you have an existin
         
         'django_logger.middleware.RequestLogMiddleware', # this is the custom middleware
     ]
-    ```
+   ```
+Now if you run the server again, you will see that every time a request is made there will be log entry for that request containing informations like remote address, hostname, method, request url, request body or response body etc.
+
 Phew... That was a very lengthy documentation. If you have successfully completed all the steps and faced no issue then hats off to you. 🤝 <br>
 If you have any confusion or face any error or don't get expected output then feel free to contact me. 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -426,6 +441,7 @@ Use this space to list resources you find helpful and would like to give credit 
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+[project-screenshot1]: static/img/logger-dashboard.png
+[project-screenshot2]: static/img/log-viewer.png
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
