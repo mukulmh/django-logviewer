@@ -7,7 +7,7 @@ import time
 import json
 import logging
 
-request_logger = logging.getLogger('django')
+request_logger = logging.getLogger('djangoapi')
 
 
 class RequestLogMiddleware:

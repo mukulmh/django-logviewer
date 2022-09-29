@@ -2,9 +2,9 @@ from django.shortcuts import render,redirect
 import os
 import re
 from django.core.paginator import Paginator
-# import logging
+import logging
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 # Create your views here.
@@ -59,22 +59,22 @@ def dashboard(request):
         log_data['warning_count'] = warning_count
         log_data['critical_count'] = critical_count
         all_logs.reverse()
-        log_data['all_logs'] = all_logs
+        log_data['all_logs'] = all_logs[:100]
         debug_logs.reverse()
-        log_data['debug_logs'] = debug_logs
+        log_data['debug_logs'] = debug_logs[:100]
         info_logs.reverse()
-        log_data['info_logs'] = info_logs
+        log_data['info_logs'] = info_logs[:100]
         warning_logs.reverse()
-        log_data['warning_logs'] = warning_logs
+        log_data['warning_logs'] = warning_logs[:100]
         error_logs.reverse()
-        log_data['error_logs'] = error_logs
+        log_data['error_logs'] = error_logs[:100]
         critical_logs.reverse()
-        log_data['critical_logs'] = critical_logs
+        log_data['critical_logs'] = critical_logs[:100]
         logs.append(log_data)
     # print(logs)
     todays_log = logs[0]
-    return render(request,'logger/dashboard.html',{'logs':logs, 'todays_log':todays_log})
-# logger.debug('Unauthorized access blocked.')
+    logger.warning('Accesed log dashboard!')
+    return render(request,'logger/dashboard.html',{'logs':logs[:7], 'todays_log':todays_log})
 
 # logs
 def logs(request, file):
@@ -91,7 +91,7 @@ def logs(request, file):
                 log_data['log_number'] = log_no
                 logs.append(log_data)
     logs.reverse()
-    log_paginator = Paginator(logs, 20)
+    log_paginator = Paginator(logs, 50)
     page_number = request.GET.get('page')
     total_pages = log_paginator.num_pages
     logs_per_page = log_paginator.get_page(page_number)

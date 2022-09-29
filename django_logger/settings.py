@@ -152,8 +152,12 @@ LOGGING = {
         },
     },
     'loggers': {
-        '': {
-            'level': 'DEBUG',
+        'djangoapi': {
+            'level': 'INFO',
+            'handlers': ['file'],
+        },
+        'django': {
+            'level': 'INFO',
             'handlers': ['file'],
         },
     },
