@@ -1,8 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import render,redirect
 import os
 import re
 from django.core.paginator import Paginator
 import logging
+import mimetypes
+from django.http.response import HttpResponse
 
 logger = logging.getLogger('django')
 
@@ -96,3 +99,29 @@ def logs(request, file):
     total_pages = log_paginator.num_pages
     logs_per_page = log_paginator.get_page(page_number)
     return render(request,'logger/logs.html',{'logs':logs_per_page, 'file':file, 'total_pages':total_pages})
+
+
+# download 
+def download_log(request, file=''): 
+    if file != '': 
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+        filepath = BASE_DIR + '/logs/' + file 
+        path = open(filepath, 'rb') 
+        mime_type, _ = mimetypes.guess_type(filepath) 
+        response = HttpResponse(path, content_type=mime_type) 
+        response['Content-Disposition'] = "attachment; filename=%s" % file 
+        return response 
+    else: 
+        return redirect('dashboard') 
+ 
+# delete 
+def delete_log(request, file=''): 
+    if file != '': 
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+        filepath = BASE_DIR + '/logs/' + file 
+        if os.path.isfile(filepath):
+            try:
+                os.remove(filepath) 
+            except Exception as e:
+                logger.error(e)
+    return redirect('dashboard')

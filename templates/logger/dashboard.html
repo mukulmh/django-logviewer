@@ -183,10 +183,10 @@
                     <td>
                       <a class="btn btn-xs btn-primary" href="{% url 'logs' file=log.file %}">
                         <i class="fa fa-eye"></i></a>
-                      <a class="btn btn-xs btn-info" download="logfile">
+                      <a class="btn btn-xs btn-info" href="{% url 'download_log' file=log.file %}">
                         <i class="fa fa-download"></i>
                       </a>
-                      <a class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-lg">
+                      <a class="btn btn-xs btn-danger" href="{% url 'delete_log' file=log.file %}">
                         <i class="fa fa-trash"></i></a>
                     </td>
                   </tr>
