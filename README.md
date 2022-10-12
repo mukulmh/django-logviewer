@@ -200,13 +200,16 @@ Now we will need to register our app_logviewer app url in the main apps(in our c
 #### Step: 11
 Now we make views for our app_logviewer. So open `views.py` of `app_logviewer`. And just simply paste the following code snippet.
    ```py
-  from django.shortcuts import render,redirect
+  from django.http import HttpResponse
+from django.shortcuts import render,redirect
 import os
 import re
 from django.core.paginator import Paginator
-# import logging
+import logging
+import mimetypes
+from django.http.response import HttpResponse
 
-# logger = logging.getLogger('django')
+logger = logging.getLogger('django')
 
 
 # Create your views here.
@@ -275,7 +278,7 @@ def dashboard(request):
         logs.append(log_data)
     # print(logs)
     todays_log = logs[0]
-    # logger.warning('Accesed log dashboard!')
+    logger.warning('Accesed log dashboard!')
     return render(request,'logger/dashboard.html',{'logs':logs[:7], 'todays_log':todays_log})
 
 # logs
@@ -298,6 +301,33 @@ def logs(request, file):
     total_pages = log_paginator.num_pages
     logs_per_page = log_paginator.get_page(page_number)
     return render(request,'logger/logs.html',{'logs':logs_per_page, 'file':file, 'total_pages':total_pages})
+
+
+# download 
+def download_log(request, file=''): 
+    if file != '': 
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+        filepath = BASE_DIR + '/logs/' + file 
+        path = open(filepath, 'rb') 
+        mime_type, _ = mimetypes.guess_type(filepath) 
+        response = HttpResponse(path, content_type=mime_type) 
+        response['Content-Disposition'] = "attachment; filename=%s" % file 
+        return response 
+    else: 
+        return redirect('dashboard') 
+ 
+# delete 
+def delete_log(request, file=''): 
+    if file != '': 
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+        filepath = BASE_DIR + '/logs/' + file 
+        if os.path.isfile(filepath):
+            try:
+                os.remove(filepath) 
+            except Exception as e:
+                logger.error(e)
+    return redirect('dashboard')
+
    ```
 #### Step: 12
 Now create a new file `urls.py` in app_logviewer directory. And paste the following code.
@@ -308,6 +338,8 @@ Now create a new file `urls.py` in app_logviewer directory. And paste the follow
   urlpatterns = [
       path('', dashboard, name='dashboard'),
       path('debug/<str:file>', logs, name='logs'),
+      path('download_log/<str:file>', download_log, name='download_log'),
+      path('delete_log/<str:file>', delete_log, name='delete_log'),
   ]
    ```
 #### Step: 13
