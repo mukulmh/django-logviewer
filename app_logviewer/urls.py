@@ -1,4 +1,3 @@
-from turtle import down
 from django.urls import path
 from .views import *
 
